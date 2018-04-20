@@ -1,82 +1,109 @@
 package no.hvl.dat102;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
 import org.junit.Before;
 
 public class KjedetBinaerSokeTreADTTest {
 
-    private KjedetBinaerSokeTre<Integer> bs;
-    // Testdata som legges inn i treet
-    private Integer e0 = 1;
-    private Integer e1 = 2;
-    private Integer e2 = 3;
-    private Integer e3 = 4;
-    private Integer e4 = 5;
-    private Integer e5 = 6;
-    private Integer e6 = 7;
+	private KjedetBinaerSokeTre<Integer> bs;
+	// Testdata som legges inn i treet
+	private Integer e0 = 1;
+	private Integer e1 = 2;
+	private Integer e2 = 3;
+	private Integer e3 = 4;
+	private Integer e4 = 5;
+	private Integer e5 = 6;
+	private Integer e6 = 7;
 
-    //Data som ikke legges inn i treet
-    private Integer e7 = 8;
+	//Data som ikke legges inn i treet
+	private Integer e7 = 8;
 
-    /**
-     * Opprett en tomt tre for hver test.
-     *
-     * @throws Exception exception
-     */
-    @Before
-    public final void setup() throws Exception {
-      bs = new KjedetBinaerSokeTre<Integer>();
-    }
+	/**
+	 * Opprett en tomt tre for hver test.
+	 * @throws Exception exception
+	 */
+	@Before
+	public final void setup() throws Exception {
+		bs = new KjedetBinaerSokeTre();
+	}
 
-    /**
-     * Tester  finn
-     *
-     */
-    @Test
-    public final void erElementIBSTre() {
-    /* Her legger du inn e0...e6 i treet i en vilk�rlig rekkef�lge.
-     * Etterp� sjekker du om elementene fins og til slutt sjekker du
-     * at e7 ikke fins
-     */
+	/**
+	 * Tester  finn
+	 */
+	@Test
+	public final void erElementIBSTre() {
+		/* Her legger du inn e0...e6 i treet i en vilk�rlig rekkef�lge.
+		 * Etterp� sjekker du om elementene fins og til slutt sjekker du
+		 * at e7 ikke fins
+		 */
+		bs.leggTil(e3);
+		bs.leggTil(e2);
+		bs.leggTil(e4);
+		bs.leggTil(e1);
+		bs.leggTil(e5);
+		bs.leggTil(e0);
+		bs.leggTil(e6);
 
-   }
+		assertEquals(new Integer(1), bs.finn(e0));
+		assertEquals(new Integer(2), bs.finn(e1));
+		assertEquals(new Integer(3), bs.finn(e2));
+		assertEquals(new Integer(4), bs.finn(e3));
+		assertEquals(new Integer(5), bs.finn(e4));
+		assertEquals(new Integer(6), bs.finn(e5));
+		assertEquals(new Integer(7), bs.finn(e6));
 
-    /**
-     *1.  Tester ordning  ved � legge til elementer og fjerne minste
-     *
-     */
-     @Test
-    public final void erBSTreOrdnet() {
-     /* Her legge du f�rst inn e0...e6 i en vilk�rlig rekkef�lge
-      * og s� fjerne du minste hele tiden
-      *
-      *
-      */
-   }
-     
-    /**
-     * 2 Tester ordning ved � bruke en inordeniterator
-     *  Her studerer du alt om bruk av inordeniterator.
-     */
-     @Test
-    public final void erBSTreOrdnet2() {
-     bs.leggTil(e3);
-     bs.leggTil(e2);
-     bs.leggTil(e4);
-     bs.leggTil(e1);
-     bs.leggTil(e5);
-     bs.leggTil(e0);
-     bs.leggTil(e6);
+		assertNotEquals(new Integer(2), bs.finn(e0));
 
-     Integer el[] = {e0, e1, e2, e3, e4, e5, e6};
-     int i = 0;
-     for (Integer e : bs ) {
-       assertEquals(el[i], e);
-       i++;
-     }
+	}
 
-   }
+	/**
+	 *
+	 * 1.  Tester ordning  ved � legge til elementer og fjerne minste
+	 */
+	@Test
+	public final void erBSTreOrdnet() {
+		/* Her legge du f�rst inn e0...e6 i en vilk�rlig rekkef�lge
+		 * og s� fjerne du minste hele tiden
+		 */
+		bs.leggTil(e3);
+		bs.leggTil(e2);
+		bs.leggTil(e4);
+		bs.leggTil(e1);
+		bs.leggTil(e5);
+		bs.leggTil(e0);
+		bs.leggTil(e6);
 
+		Integer el[] = { e0, e1, e2, e3, e4, e5, e6 };
+		int i = 0;
+		for(Integer element : el) {
+			assertEquals(element, bs.fjernMin());
+		}
+
+	}
+
+	/**
+	 * 2 Tester ordning ved � bruke en inordeniterator
+	 * Her studerer du alt om bruk av inordeniterator.
+	 */
+	@Test
+	public final void erBSTreOrdnet2() {
+		bs.leggTil(e3);
+		bs.leggTil(e2);
+		bs.leggTil(e4);
+		bs.leggTil(e1);
+		bs.leggTil(e5);
+		bs.leggTil(e0);
+		bs.leggTil(e6);
+
+		Integer el[] = { e0, e1, e2, e3, e4, e5, e6 };
+		int i = 0;
+		for(Integer e : bs) {
+			assertEquals(el[i], e);
+			i++;
+		}
+
+	}
 
 }//class
