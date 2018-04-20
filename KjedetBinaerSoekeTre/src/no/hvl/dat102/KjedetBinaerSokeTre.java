@@ -24,12 +24,13 @@ class KjedetBinaerSokeTre<T extends Comparable<T>> implements BSTreADT<T>, Itera
 	 ******************************************************************/
 	public KjedetBinaerSokeTre(T element) {
 		antall = 1;
-		rot = new BinaerTreNode<T>(element);
+		rot = new BinaerTreNode(element);
 	}
 
 	/*****************************************************************
 	 Returnerer sann hvis dette bin�re trett er tomt og usann ellers.
 	 *****************************************************************/
+	@Override
 	public int antall() {
 		return antall;
 	}
@@ -37,6 +38,7 @@ class KjedetBinaerSokeTre<T extends Comparable<T>> implements BSTreADT<T>, Itera
 	/*****************************************************************
 	 Returnerer sann hvis dette bin�re treet er tom og usann ellers.
 	 *****************************************************************/
+	@Override
 	public boolean erTom() {
 		return (antall == 0);
 	}
@@ -45,6 +47,7 @@ class KjedetBinaerSokeTre<T extends Comparable<T>> implements BSTreADT<T>, Itera
 	 Legger det spesifiserte elementet p� passende plass i BS-treet.
 	 Like elementer blir lagt til h�yre. Bruk av rekursiv hjelpemetode.
 	 ********************************************************************/
+	@Override
 	public void leggTil(T element) {
 		rot = leggTilRek(rot, element);
 		antall++;
@@ -54,7 +57,7 @@ class KjedetBinaerSokeTre<T extends Comparable<T>> implements BSTreADT<T>, Itera
 		// Den rekursive hjelpemetoden
 
 		if(p == null) { // Tomt (under-)tre, lag node
-			BinaerTreNode<T> ny = new BinaerTreNode<T>(element);
+			BinaerTreNode<T> ny = new BinaerTreNode(element);
 			return ny;
 		} else if(element.compareTo(p.getElement()) < 0) {
 			p.setVenstre(leggTilRek(p.getVenstre(), element));
@@ -71,7 +74,7 @@ class KjedetBinaerSokeTre<T extends Comparable<T>> implements BSTreADT<T>, Itera
 	 ******************************************************************/
 
 	public void leggTil2(T element) {
-		BinaerTreNode<T> temp = new BinaerTreNode<T>(element);
+		BinaerTreNode<T> temp = new BinaerTreNode(element);
 		if(erTom()) {
 			rot = temp;
 		} else {
@@ -90,7 +93,7 @@ class KjedetBinaerSokeTre<T extends Comparable<T>> implements BSTreADT<T>, Itera
 				else { //  >=
 					if(aktuell.getHoyre() == null) {
 						aktuell.setHoyre(temp);
-						;
+
 						lagtTil = true;
 					} else {
 						aktuell = aktuell.getHoyre();
@@ -203,6 +206,7 @@ class KjedetBinaerSokeTre<T extends Comparable<T>> implements BSTreADT<T>, Itera
 	 Returnerer en referanse til det spesifiserte elementet hvis det finst
 	 i dette BS-treet, null elles. Bruk av rekursjon
 	 / ******************************************************************************/
+	@Override
 	public T finn(T element) {
 		// S�k med rekursiv hjelpemetode
 
@@ -248,6 +252,7 @@ class KjedetBinaerSokeTre<T extends Comparable<T>> implements BSTreADT<T>, Itera
 	/******************************************************************
 	 Returnerer en inordeniterator for elementene i bs-treet.
 	 ******************************************************************/
+	@Override
 	public Iterator<T> iterator() {
 		return new InordenIterator(rot);
 	}
@@ -285,15 +290,16 @@ class KjedetBinaerSokeTre<T extends Comparable<T>> implements BSTreADT<T>, Itera
 			visRekInorden(p.getHoyre());
 		}
 	}
+
 	public int finnHoyde() {
-		if (rot == null) {
+		if(rot == null) {
 			return -1;
 		}
 		return finnHoydeRek(rot);
 	}
 
 	public int finnHoydeRek(BinaerTreNode<T> p) {
-		if (p == null) {
+		if(p == null) {
 			return -1;
 		}
 
@@ -302,6 +308,19 @@ class KjedetBinaerSokeTre<T extends Comparable<T>> implements BSTreADT<T>, Itera
 		return Math.max(hVenstreSub, hHoyreSub) + 1;
 	}
 
+	public int finnMinHoyde() {
+		if(rot != null) {
+			return (int) ( Math.log(antall) / Math.log(2));
+		}
+		return -1;
+	}
+
+	public int finnMaksHoyde() {
+		if (rot != null) {
+			return antall -1;
+		}
+		return -1;
+	}
 }//class
 
 //************************************************************************

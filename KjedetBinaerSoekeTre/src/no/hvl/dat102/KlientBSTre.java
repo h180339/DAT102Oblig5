@@ -1,5 +1,7 @@
 package no.hvl.dat102;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
+
 import java.util.*;
 
 class KlientBSTre {
@@ -10,10 +12,10 @@ class KlientBSTre {
 		//Sjekker om verdien 10 er i treet
 		//
 
-		final int ANTALL_NODER = 16;
+		final int ANTALL_NODER = 1024;
 		Random tilfeldig = new Random();
 
-		KjedetBinaerSokeTre<Integer> bs = new KjedetBinaerSokeTre<Integer>();
+		KjedetBinaerSokeTre<Integer> bs = new KjedetBinaerSokeTre();
 		/*
 		Integer resultat = null;
 
@@ -23,70 +25,45 @@ class KlientBSTre {
 			bs.leggTil(element);
 		}
 		*/
-		bs.leggTil(1);
-		bs.leggTil(2);
-		bs.leggTil(3);
-		bs.leggTil(4);
-		bs.leggTil(5);
-		bs.leggTil(6);
 
-		/*
-		System.out.println("Treet med  " + ANTALL_NODER + " noder.");
+		//Lager 100 binæretrer og legger det inn i en tabell kalt "tab"
+		final int ANTALL_TRER = 100;
+		KjedetBinaerSokeTre<Integer>[] tab = new KjedetBinaerSokeTre[ANTALL_TRER];
 
-		bs.visInorden();
-
-		Integer el = new Integer(10);
-
-		//************************************************************************
-
-		resultat = bs.finn(el);
-		if(resultat != null) {
-			System.out.println("\nSoekte etter " + el + " og fant " + resultat);
-		} else {
-			System.out.println("\nSoekte etter " + el + " som ikke var i treet ");
+		for(int i = 0; i < ANTALL_TRER; i++) {
+			KjedetBinaerSokeTre<Integer> bst = new KjedetBinaerSokeTre();
+			for(int j = 0; j < ANTALL_NODER; j++) {
+				Integer element = new Integer(tilfeldig.nextInt(50));
+				bst.leggTil(element);
+			}
+			tab[i] = bst;
 		}
 
-		//****************************************************************************
+		System.out.println("minimum høyde: ");
+		System.out.println(tab[0].finnMinHoyde());
 
-		resultat = bs.fjernMaks();
-		if(resultat != null) {
-			System.out.println("\nFjernet stoerste " + resultat);
-		} else {
-			System.out.println("Treet er tomt");
+		System.out.println("maksimum høyde: ");
+		System.out.println(tab[0].finnMaksHoyde());
+
+		int hoyde = 0;
+
+		for(KjedetBinaerSokeTre<Integer> trer : tab) {
+			hoyde += trer.finnHoyde();
 		}
-		System.out.println("Treet er nå: ");
-		bs.visInorden();
+		hoyde = hoyde / ANTALL_TRER;
 
-		//****************************************************************************
-		resultat = bs.fjernMin();
-		if(resultat != null) {
-			System.out.println("\nFjernet minste " + resultat);
-		} else {
-			System.out.println("Tree er tomt ");
-		}
-		System.out.println("Treet er nå: ");
-		bs.visInorden();
-		//****************************************************************************
+		System.out.print("gjennomsnittshøyde: ");
+		System.out.println(hoyde);
 
-		resultat = bs.finnMin();
-		if(resultat != null) {
-			System.out.println("\nMinste element " + resultat);
-		} else {
-			System.out.println("Treet er tomt");
-		}
+		System.out.print("c =");
+		double logN = (Math.log(ANTALL_NODER) / Math.log(2));
+		double c = hoyde / logN;
 
-		//******************************************************************************
+		System.out.println(c);
 
-		resultat = bs.finnMaks();
-		if(resultat != null) {
-			System.out.println("\nStoerste element " + resultat);
-		} else {
-			System.out.println("Treet er tomt");
-		}
-		*/
-		System.out.println();
-		System.out.println("høyde:");
-		System.out.println(bs.finnHoyde());
+		System.out.print("c * log 4096 = ");
+		System.out.println(c * Math.log(4096) / Math.log(2));
+
 		//****************************************************************************
 
 	}
