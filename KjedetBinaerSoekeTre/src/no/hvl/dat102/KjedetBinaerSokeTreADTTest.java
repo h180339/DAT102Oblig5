@@ -54,7 +54,7 @@ public class KjedetBinaerSokeTreADTTest {
 		assertEquals(new Integer(6), bs.finn(e5));
 		assertEquals(new Integer(7), bs.finn(e6));
 
-		assertNotEquals(new Integer(2), bs.finn(e0));
+		assertNotEquals(new Integer(8), bs.finn(e7));
 
 	}
 
